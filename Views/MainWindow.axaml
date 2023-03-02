@@ -1,0 +1,59 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaTest1.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaTest1.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AvaTest1"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <!-- Это нужно для отображения DataContext, привязанного к MainWindow, в реальном времени. Чёткая тема!-->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <Grid>
+        
+        <Button HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Width="20"
+                Height="20"
+                Margin="10"
+                Padding="0"
+                CornerRadius="10"
+                Command="{Binding CloseAllCommand}">
+            <Button.Content>
+                <TextBlock FontSize="10"
+                           Margin="1 0 0 2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">+</TextBlock>
+            </Button.Content>
+        </Button>
+        
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBox Width="300" Height="100" Text="{Binding UserInput}"/>
+            <TextBox Width="300" Height="100" Margin="20" Text="{Binding UserInput}"/>
+            
+        
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button HorizontalContentAlignment="Center"
+                        Width="150"
+                        FontSize="20"
+                        Content="{Binding ButtonContent}"
+                        Command="{Binding EraseCommand}"/>
+                
+                <Button HorizontalContentAlignment="Center"
+                        Width="150"
+                        FontSize="20"
+                        Content="{Binding NextWindowContent}"
+                        Command="{Binding NextWindowCommand}"
+                        Margin="10 0  0 0"/>
+            </StackPanel>
+            
+        </StackPanel>
+        
+    </Grid>
+    
+</Window>
