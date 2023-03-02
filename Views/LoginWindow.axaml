@@ -1,0 +1,42 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:AvaTest1.ViewModels"
+        Width="1000"
+        Height="600"
+        x:Class="AvaTest1.Views.LoginWindow"
+        Title="LoginWindow">
+    
+    <Window.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="8 3"/>
+        </Style>
+    </Window.Styles>
+    
+    <Design.DataContext>
+        <local:LoginWindowViewModel/>
+    </Design.DataContext>
+    
+    <Grid>
+        
+        
+        <TextBlock Text="{Binding HelloUser}"
+                    FontSize="25"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    Margin="0 40 0 0"/>
+        
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox Text="{Binding Login}"
+                     Watermark="Ваш логин..."/>
+            <TextBox Text="{Binding Password}"
+                     Watermark="Ваш пароль..."
+                     Margin="0 20 0 0"/>
+        </StackPanel>
+    </Grid>
+        
+</Window>

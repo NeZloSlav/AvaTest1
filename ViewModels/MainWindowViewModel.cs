@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reactive;
 using Avalonia.Controls;
+using AvaTest1.ClassHelper;
+using AvaTest1.Models;
+using AvaTest1.Services;
 using AvaTest1.Views;
 using ReactiveUI;
 
@@ -8,53 +13,65 @@ namespace AvaTest1.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private string _userInput;
-    private string _buttonContent = "Стереть";
-    private string _nextWindowContent = "Перейти";
+    private string _tbxLoginContent;
+    private string _tbxPasswordContent;
+    private User currentUser;
     
-
     public MainWindowViewModel()
     {
-        
-        EraseCommand = ReactiveCommand.Create(() =>
+        LoginCommand = ReactiveCommand.Create(() =>
         {
-            UserInput = "";  
+            if (IsLogged())
+            {
+                CurrentUser.user = currentUser;
+                LoginWindow loginWindow = new LoginWindow();
+                loginWindow.DataContext = new LoginWindowViewModel();
+                NavigateClass.ChangeWindow(loginWindow);
+            }
+
         });
 
-        CloseAllCommand = ReactiveCommand.Create(() =>
+        RegisterCommand = ReactiveCommand.Create(() =>
         {
-            Environment.Exit(0);
-        });
 
-        NextWindowCommand = ReactiveCommand.Create(() =>
-        {
-            /*ProfileView profileView = new ProfileView();*/
-            
-            ClassHelper.NavigateClass.ChangeWindow(new ProfileView());
-            
-            
         });
     }
-    
-    public string UserInput
+
+    private bool IsLogged()
     {
-        get => _userInput;
-        set => this.RaiseAndSetIfChanged(ref _userInput, value);
+        Database db = new Database();
+        List<User> list = db.Users;
+
+        foreach (var user in list)
+        {
+            if (user.Login == TbxLoginContent)
+            {
+                if (user.Password == TbxPasswordContent)
+                {
+                    currentUser = user;
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        return false;
     }
 
-    public string NextWindowContent
+    public string TbxLoginContent
     {
-        get => _nextWindowContent;
+        get => _tbxLoginContent;
+        set => this.RaiseAndSetIfChanged(ref _tbxLoginContent, value);
     }
-    
-    public string ButtonContent
-    {
-        get => _buttonContent;
-    }
-    
-    public ReactiveCommand<Unit, Unit> NextWindowCommand { get; }
 
-    public ReactiveCommand<Unit, Unit> EraseCommand { get; }
+    public string TbxPasswordContent
+    {
+        get => _tbxPasswordContent;
+        set => this.RaiseAndSetIfChanged(ref _tbxPasswordContent, value);
+    }
     
-    public ReactiveCommand<Unit, Unit> CloseAllCommand { get; }
+    public ReactiveCommand<Unit, Unit> LoginCommand { get; }
+    public ReactiveCommand<Unit, Unit> RegisterCommand { get; }
+
 }
